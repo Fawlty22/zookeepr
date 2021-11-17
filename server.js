@@ -8,6 +8,7 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 // parse incoming JSON data
 app.use(express.json());
+app.use(express.static('public'));
 
 function validateAnimal(animal) {
   if (!animal.name || typeof animal.name !== 'string') {
@@ -79,6 +80,10 @@ function filterByQuery(query, animalsArray) {
     );
     return animal;
   }
+
+  app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/index.html'));
+  });
 
   app.get('/api/animals', (req, res) => {
     let results = animals;
